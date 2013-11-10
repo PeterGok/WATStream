@@ -23,13 +23,14 @@ public class Event extends TextView
 	ViewGroup layout;
 	Context context;
 	
-	public Event(Context context, String title, Date date, String mainText)
+	public Event(Context context, String title, String date, String mainText)
 	{
 		super(context);
 		this.title = title;
 		this.mainText = mainText;
 		this.context = context;
-		this.date = new SimpleDateFormat("MM-dd").format(date);
+		this.date = date;
+		//this.date = new SimpleDateFormat("MM-dd").format(date);
 	}
 	
 	public void draw (Canvas g)

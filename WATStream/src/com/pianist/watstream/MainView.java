@@ -1,32 +1,25 @@
 package com.pianist.watstream;
 
 import android.content.Context;
-import android.graphics.Canvas;
-import android.view.SurfaceView;
 import android.view.ViewGroup;
-import android.widget.ScrollView;
-import android.widget.TextView;
+import android.widget.LinearLayout;
 
-public class MainView extends ScrollView implements Runnable
+public class MainView extends LinearLayout
 {
 	ViewGroup layout;
-	Context context;
-	StreamList stream;
-	
+	ScrollContainer scroll;
+	MenuBar menu;
+
 	public MainView(Context context)
 	{
 		super(context);
-		this.context = context;
 		layout = (ViewGroup) this;
-		stream = new StreamList(context);
-		layout.addView(stream);
-	}
-
-	@Override
-	public void run()
-	{
-		// TODO Auto-generated method stub
-		
+		this.setOrientation(VERTICAL);
+		final float scale = getContext().getResources().getDisplayMetrics().density;
+		menu = new MenuBar(context);
+		layout.addView(menu);
+		scroll = new ScrollContainer(context);
+		layout.addView(scroll);
 	}
 
 }

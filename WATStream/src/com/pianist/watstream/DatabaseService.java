@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -29,6 +30,7 @@ import android.util.Log;
 public class DatabaseService {
 	  private static DatabaseService _instance = new DatabaseService();
 	  public static Context context;
+	  public static WATStream reference;
 
 	  public static ArrayList <Event> events = new ArrayList <Event> ();
 
@@ -36,20 +38,21 @@ public class DatabaseService {
 	    return _instance;
 	  }
 
-	  private void updateEvents(JSONObject jObject) throws JSONException {
-	    events = new ArrayList <Event> ();
-	    for (int i=0; i < jObject.length(); i++){
+	  private void updateEvents(JSONObject jObject, ArrayList<Event> newEvents) throws JSONException {
+	    
+	    for (int i=0; i < jObject.length() / 3; i++){
 	      String title = jObject.getString("title");
 	      String date = jObject.getString("date");
 	      String mainText = jObject.getString("maintext");
-	      events.add(new Event (context, title, date, mainText));
+	      newEvents.add(new Event (context, title, date, mainText));
 	    }
+	    
 	  }
 
 	  public void connect() throws JSONException {
 	    
 	    DefaultHttpClient httpclient = new DefaultHttpClient();
-	    HttpPost httppost = new HttpPost("http://dacompadres.host22.com/watstream/getdata.php");
+	    HttpPost httppost = new HttpPost("http://watstream.co.nf/getInfo.php");
 
 	    InputStream inputStream = null;
 	    
@@ -75,8 +78,17 @@ public class DatabaseService {
 	        Log.v("ioexception", e.toString());
 	    }
 	    
-	    JSONObject jObject = new JSONObject(result);
-	    updateEvents (jObject);
+	    ArrayList<Event> newEvents = new ArrayList <Event> ();
+	    
+	    result = result.substring(0, result.length()-2);
+	    
+	    for (String object : result.split("\\}"))
+	    {
+	    	JSONObject jObject = new JSONObject("{" + object.substring(2) + "}");
+	    	updateEvents (jObject, newEvents);
+	    }
+	    
+	    events = newEvents;
 	  }
 
 	  /**public void setPosition( int game, int x, int y, int color ) {

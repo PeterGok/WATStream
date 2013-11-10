@@ -40,12 +40,14 @@ public class WATStream extends FragmentActivity
 		horScroll = (HorizontalScrollView) findViewById (R.id.horScroll);
 		
 		menuBar.setOrientation(LinearLayout.HORIZONTAL);
+		
+		DatabaseService.reference = this;
 
 		buttons = new MenuButton [5];
 		
 		Timer timer = new Timer();
-		UpdateTimer ut = new UpdateTimer();
-	    timer.schedule( ut, 200, 200 );
+		UpdateTimer ut = new UpdateTimer(this);
+	    timer.schedule( ut, 0, 1);
 		
 		Context context = menuBar.getContext();
 		DatabaseService.context = context;
@@ -85,7 +87,7 @@ public class WATStream extends FragmentActivity
 		
 		menuBar.setHorizontalScrollBarEnabled(false);
 		
-	    myViewPager = (ViewPager) findViewById(R.id.pager);
+		myViewPager = (ViewPager) findViewById(R.id.pager);
 	    myFragmentPagerAdapter = new ViewPageAdapter (getSupportFragmentManager());
 	    myViewPager.setAdapter(myFragmentPagerAdapter);
 	    
@@ -111,6 +113,11 @@ public class WATStream extends FragmentActivity
 				
 			}
 		});
+	}
+	
+	public void createFlip ()
+	{
+		myViewPager.setCurrentItem(myViewPager.getCurrentItem());
 	}
 
 }

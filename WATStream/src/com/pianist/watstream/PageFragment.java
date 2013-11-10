@@ -59,8 +59,9 @@ public class PageFragment extends Fragment
 			for (Event e : DatabaseService.events)
 			{
 				final float scale = stream.getContext().getResources().getDisplayMetrics().density;
-				e.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, (int)(150 * scale)));
-				stream.addView(e);
+				Event tv = new Event (stream.getContext(), e.title, e.date, e.mainText);
+				tv.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, (int)(150 * scale)));
+				stream.addView(tv);
 			}
 		}
 

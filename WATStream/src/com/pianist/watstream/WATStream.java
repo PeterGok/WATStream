@@ -11,7 +11,14 @@ public class WATStream extends Activity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_watstream);
+		MainView view = new MainView (this);
+		setContentView(view);
+		
+		view.stream.addBox("Hello");
+		view.stream.addBox("Bryan Feeds");
+		view.stream.addBox("Bryan Feeds");
+		view.stream.addBox("Bryan Feeds");
+		view.stream.addBox("Bryan Feeds");
 	}
 
 	@Override
